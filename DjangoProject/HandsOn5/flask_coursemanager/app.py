@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from config import Config
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 
-db = SQLAlchemy() # having  a db as sqlalchemy object and not a temp list as in the previous hands-on
+#db = SQLAlchemy() # having  a db as sqlalchemy object and not a temp list as in the previous hands-on
 
 def create_app():
     app = Flask(__name__)
@@ -13,7 +13,7 @@ def create_app():
     migrate = Migrate(app,db) # enables all the flask db commands
 
     from courses import models
-    
+
     from courses.routes import courses_bp
     app.register_blueprint(courses_bp)
 
