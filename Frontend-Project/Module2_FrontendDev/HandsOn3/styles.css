@@ -1,0 +1,247 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #222;
+}
+
+
+
+/* Step 15: header is a flex row, items vertically centred,
+   and pushed to opposite ends with space-between */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+/* Step 27: fluid title sizing with clamp() */
+.site-name {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: bold;
+}
+
+/* Hamburger — visible on mobile by default, hidden at 768px+ (see media query) */
+.hamburger {
+  display: block;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Nav hidden on mobile by default, shown at 768px+ (see media query) */
+.main-nav {
+  display: none;
+}
+
+/* Step 16: nav as a flex container, gap for spacing, links vertically centred */
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Step 17: heading, paragraph, button stacked vertically and centred */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.2rem;
+  min-height: 40vh; /* Step 27: viewport-relative height */
+}
+
+.hero h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.hero button {
+  padding: 0.7rem 1.5rem;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.hero button:hover {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+
+
+/* Step 18: three stat items laid out with Flexbox, equal spacing.
+   flex: 1 on each child makes them grow equally to fill the row. */
+.stats-bar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background-color: #fff;
+  margin: 0 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.stat-item {
+  flex: 1; /* each stat item grows equally to share available space */
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.stat-number {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1a1a2e;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+
+/* grid course card*/
+
+.courses {
+  padding: 1.5rem 1.2rem;
+}
+
+.courses h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* New elements for handson_03 interactivity */
+.search-input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.sort-button {
+  display: block;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.sort-button:hover {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+.total-credits {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.course-details {
+  margin-top: 0.5rem;
+  color: #1a1a2e;
+  min-height: 1.2rem; /* keeps layout stable before a card is clicked */
+}
+
+.course-card {
+  cursor: pointer; /* signals the card is clickable */
+}
+
+/* Step 24: mobile-first default = single column grid */
+.course-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Step 21: minimum height + stretch to fill the grid cell */
+.course-card {
+  min-height: 160px;
+  align-self: stretch;
+  padding: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+
+
+
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1a1a2e;
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+
+
+
+/* Step 25: tablet — 768px and up */
+@media (min-width: 768px) {
+
+  .hamburger {
+    display: none;
+  }
+
+  .main-nav {
+    display: block;
+  }
+
+  /* Step 20: explicit 2-column grid at tablet size */
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Step 26: desktop — 1024px and up */
+@media (min-width: 1024px) {
+
+  /* Step 20: explicit 3-column grid at desktop size */
+  .course-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero {
+    padding: 4rem 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
