@@ -73,11 +73,77 @@ nav a:hover {
   color: #fff;
 }
 
-/* Step 13: Course card styling */
+/* Step 13: Course card styling 
 .course-card {
   padding: 1.2rem;
   margin: 1rem 2rem;
   border: 1px solid #ddd;
   border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); task 2
+}
+  */
+
+
+.courses {
+  padding: 1.5rem 1.2rem;
+}
+ 
+.courses h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+ 
+/* Step 24: single-column grid is the mobile-first default */
+.course-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+ 
+.course-card {
+  padding: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+ 
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1a1a2e;
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+ 
+  .hamburger {
+    display: none;
+  }
+ 
+  .main-nav {
+    display: block;
+  }
+ 
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+ 
+ 
+/*Step 26: DESKTOP BREAKPOINT — min-width: 1024px */
+@media (min-width: 1024px) {
+ 
+  .course-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+ 
+  .hero {
+    padding: 4rem 2rem;
+  }
+ 
+  .hero h1 {
+    font-size: 2rem;
+  }
 }
