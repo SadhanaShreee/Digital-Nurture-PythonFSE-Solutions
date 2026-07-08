@@ -1,0 +1,83 @@
+/* Step 8: CSS reset — universal selector (*) applies to every element */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Step 9: Style the body — font stack, background colour, default text colour */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #222;
+}
+
+/* Step 10: Style the header — padding, background colour, flex layout */
+header {
+  padding: 1rem 2rem;
+  background-color: #1a1a2e;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Step 11: Style the nav links */
+nav ul {
+  list-style: none;      /* remove bullets */
+  display: flex;         /* display items inline, side by side */
+  gap: 1.5rem;            /* spacing between items */
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none; /* remove underline */
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Step 12: Style the hero section */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.hero button {
+  padding: 0.7rem 1.5rem;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.hero button:hover {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+/* Step 13: Course card styling */
+.course-card {
+  padding: 1.2rem;
+  margin: 1rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
