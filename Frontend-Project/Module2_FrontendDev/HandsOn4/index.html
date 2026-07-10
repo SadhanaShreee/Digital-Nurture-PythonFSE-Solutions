@@ -54,7 +54,7 @@
       <button class="sort-button">Sort by Credits</button>
 
       <p class="loading-message">Loading courses...</p> 
-      // task 1 added loading message to show while the courses are being fetched
+      <!-- task 1 added loading message to show while the courses are being fetched -->
       <!-- Step 35: grid container left EMPTY — JavaScript renders the cards -->
       <div class="course-grid"></div>
 
@@ -65,13 +65,27 @@
       <p class="course-details"></p>
     </section>
 
+    <!-- TASK 2 : NOTIFICATIONS -->
+    <section class="notifications">
+      <h2>Notifications</h2>
+      <p class="spinner">⏳ Loading notifications...</p>
+
+      <p class="error-message" style="display: none;"></p>
+      <button class="retry-button" style="display: none;">Retry</button>
+ 
+      <div class="notification-list"></div>
+    </section>
+
   </main>
 
   <footer>
     <p>&copy; 2026 Student Portal. All rights reserved.</p>
   </footer>
 
-  <!-- type="module" is required so app.js can use ES6 import/export -->
+  <!-- Task 3: -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="app.js"></script>
+
   <script type="module" src="app.js"></script>
 
 </body>

@@ -33,7 +33,7 @@ function renderCourses(courseList) {
   totalCreditsEl.textContent = `Total Credits: ${sum}`;
 }
 
-// TASK 1:
+/* TASK 1:*/
 
 /* Step 45: fetchUser using .then() chaining (console demo only) */
 function fetchUser(id) {
@@ -111,4 +111,112 @@ courseGrid.addEventListener('click', (event) => {
   if (course) {
     detailsEl.textContent = `${course.name} — Grade: ${course.grade}`;
   }
+});
+
+/* TASK 2 */
+
+const spinner = document.querySelector('.spinner');
+const errorMessageEl = document.querySelector('.error-message');
+const retryButton = document.querySelector('.retry-button');
+const notificationList = document.querySelector('.notification-list');
+ 
+/* -----------------------------------------------------------
+   Step 50: apiFetch — a reusable "smart fetch" function.
+ 
+   Why this matters: fetch() ONLY rejects when
+   there's a real network failure - like you're offline. If the
+   server responds with a 404 or 500, fetch() still thinks that
+   counts as "success" as far as the Promise is concerned! So we
+   have to manually check response.ok and throw our own error
+   if the status code means something went wrong.
+----------------------------------------------------------- */
+async function apiFetch(url) {
+  const response = await fetch(url);
+ 
+  if (!response.ok) {
+    // response.ok is false for any status like 404, 500, etc.
+    // We throw a real Error object with a clear message —
+    // this will be caught by whoever called apiFetch.
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+ 
+  return response.json(); // parsed JSON, ready to use
+}
+ 
+
+async function loadNotifications(url = 'https://jsonplaceholder.typicode.com/posts') {
+  // reset UI to "loading" state every time this runs
+  spinner.style.display = 'block';
+  errorMessageEl.style.display = 'none';
+  retryButton.style.display = 'none';
+  notificationList.innerHTML = '';
+ 
+  try {
+    const posts = await apiFetch(url);
+ 
+    // only show the first 5 posts, so the page isn't overwhelming
+    const firstFive = posts.slice(0, 5);
+ 
+    const fragment = document.createDocumentFragment();
+    firstFive.forEach((post) => {
+      const card = document.createElement('div');
+      card.className = 'notification-card';
+      card.innerHTML = `
+        <h3>${post.title}</h3>
+        <p>${post.body}</p>
+      `;
+      fragment.appendChild(card);
+    });
+    notificationList.appendChild(fragment);
+ 
+  } catch (error) {
+    // Step 53: user-friendly message in the UI, not just console.log
+    errorMessageEl.textContent = `Couldn't load notifications: ${error.message}`;
+    errorMessageEl.style.display = 'block';
+    retryButton.style.display = 'block';
+ 
+  } finally {
+    // finally always runs, whether it succeeded or failed —
+    // perfect place to hide the spinner either way
+    spinner.style.display = 'none';
+  }
+}
+ 
+// Initial load — real, working endpoint
+loadNotifications();
+ 
+/* Step 54: Retry button re-calls the same function */
+retryButton.addEventListener('click', () => {
+  loadNotifications(); // retry the REAL url, not the broken one
+});
+
+// TASK 3: Axios version of the same functionality
+/* Step 56: the SAME idea as apiFetch, but using Axios instead of fetch(). Notice how much shorter this is:
+   - No need to call .json() manually — Axios parses JSON for you
+   - No need to check response.ok — Axios automatically throws
+     an error for any non-2xx status code, so a plain try/catch is enough on its own */
+
+async function apiFetchAxios(url) {
+  const response = await axios.get(url);
+  return response.data; // Axios puts the actual JSON body inside .data
+}
+ 
+ 
+
+async function fetchPostsForUser(userId) {
+  try {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+      params: { userId: userId }
+    });
+    console.log(`Posts by user ${userId}:`, response.data);
+  } catch (error) {
+    console.log('Axios request failed:', error.message);
+  }
+}
+ 
+fetchPostsForUser(1);
+
+axios.interceptors.request.use((config) => {
+  console.log('API call started:', config.url);
+  return config; // must always return config, or the request gets blocked
 });
