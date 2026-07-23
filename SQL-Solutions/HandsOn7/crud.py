@@ -45,31 +45,6 @@ for s in cs_students:
     print(s.first_name, s.last_name)
 
 
-from sqlalchemy import event
-
-query_count = 0
-@event.listens_for(engine, "before_cursor_execute")
-def count_queries(conn, cursor, statement, parameters, context, executemany):
-    global query_count
-    query_count += 1
-
-all_enrollments = session.query(Enrollment).all()
-for e in all_enrollments:
-    print(e.student.first_name, '-', e.course.course_name)   # each access may trigger a NEW query
-
-print(f"Total queries issued (Step 84): {query_count}")
-
-
-student_to_update = session.query(Student).filter(Student.email == 'asha@example.com').first()
-student_to_update.enrollment_year = 2023
-session.commit()
-
-
-enrollment_to_delete = session.query(Enrollment).first()
-session.delete(enrollment_to_delete)
-session.commit()
-print("Deleted enrollment, remaining:", session.query(Enrollment).count())
-
 
 # TASK 3
 from sqlalchemy.orm import joinedload
@@ -85,3 +60,4 @@ for e in eager_enrollments:
     print(e.student.first_name, '-', e.course.course_name)   # NO extra queries now — already loaded
 
 print(f"Queries issued with joinedload: {query_count - query_count_before}")
+

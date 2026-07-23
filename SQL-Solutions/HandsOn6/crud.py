@@ -85,3 +85,11 @@ for e in eager_enrollments:
     print(e.student.first_name, '-', e.course.course_name)   # NO extra queries now — already loaded
 
 print(f"Queries issued with joinedload: {query_count - query_count_before}")
+
+
+"""
+Step 90 — comment block documenting the difference:
+
+Without joinedload :  1 query for enrollments + 1 per student + 1 per course  = 1 + N + N queries (classic N+1)
+With joinedload :  1 single query using LEFT OUTER JOINs to pull enrollment + student + course data together = 1 query total
+"""
