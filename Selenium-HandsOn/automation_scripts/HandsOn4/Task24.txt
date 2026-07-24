@@ -1,0 +1,37 @@
+Selenium — Core Components Overview
+
+1. WebDriver
+WebDriver is the core automation engine of Selenium. It's a set of language-specific
+bindings (Python, Java, JS, etc.) that send commands directly to the browser through
+each browser's native automation API (e.g., Chrome uses the Chrome DevTools Protocol
+via chromedriver, Firefox uses geckodriver).
+
+How it communicates: the script talks to a local "driver" executable (chromedriver.exe,
+geckodriver.exe) over HTTP, using the W3C WebDriver protocol. The driver translates
+those commands into native calls the browser understands (e.g., "click this element",
+"navigate to this URL") and sends responses back. Because it drives the actual browser
+directly ,  not a simulation -> it reflects real user behavior accurately (clicks,
+typing, page rendering, JS execution).
+
+2. Selenium Grid
+Selenium Grid solves the problem of running tests in parallel, across multiple
+machines, browsers, and operating systems at once.
+
+Without Grid, tests run sequentially on a single machine/browser combination, which
+becomes slow as a test suite grows..... Grid uses a hub-and-node architecture: a central
+"hub" receives test requests and distributes them across registered "nodes" (machines
+with different browser/OS setups), running them concurrently. This drastically cuts
+down total execution time and enables real cross-browser/cross-platform coverage
+without needing to physically own every browser/OS combination.
+
+3. Selenium IDE
+Selenium IDE is a browser extension (Chrome/Firefox) used for record-and-playback
+test creation — no coding required to get started.
+
+You interact with a web page normally (click, type, navigate) while IDE records each
+action as a test step. You can then play the recorded sequence back to re-run the
+same interactions automatically. It also supports basic assertions (e.g., verify
+text, verify element present) and can export the recorded actions as code in various
+languages/frameworks (Python + Selenium WebDriver, Java + JUnit, etc.) -> useful for
+quickly prototyping a test or generating a starting point for a more robust WebDriver
+script, though it's generally not used for production-grade test suites on its own.
