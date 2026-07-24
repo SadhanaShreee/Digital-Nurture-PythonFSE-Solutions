@@ -1,0 +1,113 @@
+Task 1: Map Testing Types to a Real System
+1. Test cases by test level
+Test Level	Description	Example Test Case
+a. Unit Testing	-> Tests a single function/method in isolation, with dependencies mocked out
+Test the validate_course_name() function directly
+
+b. Integration Testing	-> Tests two or more components working together.	
+Call the create_course() service function and verify it correctly inserts a row into the courses table via the ORM
+
+c. System Testing	-> Tests a full end-to-end flow, from the API request all the way to the database response.	Send a POST /api/courses/ request with a valid JSON payload through the actual running server, 
+and verify the HTTP response (status code, response body) and that the record now exists when queried back via GET /api/courses/{id}.
+
+d. User Acceptance Testing (UAT)	-> Tests from the perspective of an actual end user, against real-world workflows rather than technical specs.
+	A college admin logs in, creates a new course called "Data Structures", assigns it to a department, and confirms it appears correctly in the course listing page 
+    matching what they'd expect in day-to-day use.
+
+
+2. Functional vs Non-Functional classification
+
+a. Unit: validate_course_name() ->	Functional
+b. Integration: create_course() -> inserts into DB correctly -> Functional
+c. System: POST /api/courses/ end-to-end flow -> Functional
+d. UAT: admin creates and views a course -> Functional
+
+
+3. Black-Box vs White-Box Testing
+Black-Box Testing: Testing the system purely from the outside, based on inputs and expected outputs, 
+          with no knowledge of the internal code. You only know the API contract (e.g., "POST /api/courses/ should return 201 on success")
+          not how it's implemented internally.
+
+White-Box Testing: Testing with full knowledge of the internal code ->  you look at branches, conditions, and logic paths to design
+                   tests that exercise specific lines of code (e.g., making sure both the if and else branch of the validation 
+                   function are covered).
+
+
+Task 4:
+Description ->	Create a course with valid data	API server is running; 
+Preconditions -> DB is reachable; no course named "Data Structures" exists	
+Test Steps -> 1. Send POST /api/courses/ with body {"name": "Data Structures", "code": "CS201", "credits": 4} 
+              2. Observe response		
+Expected Result -> Response status 201 Created; response body contains the new course with a generated id; record exists in DB	
+
+
+Description ->	Create a course with a missing required field	
+Preconditions -> API server is running	
+Test Steps -> 1. Send POST /api/courses/ with body {"code": "CS202"} (missing name) 
+              2. Observe response	
+Expected Result -> Response status 400 Bad Request; error message indicates name is required; no record created in DB	
+
+
+Description ->	Create a course with a duplicate course code	
+Preconditions -> A course with code CS201 already exists	
+Test Steps -> 1. Send POST /api/courses/ with body {"name": "Advanced DS", "code": "CS201", "credits": 4} 
+              2. Observe response	
+Expected Result -> Response status 409 Conflict (or 400, per API contract); error message indicates duplicate course code; no duplicate record created
+
+
+Task 5:
+New: Tester logs the defect after finding it; not yet reviewed.
+Assigned: A lead/manager reviews the defect and assigns it to a developer.
+Open: Developer acknowledges the defect and begins working on it.
+Fixed: Developer has made a code change believed to resolve the issue and moves it back to QA.
+Retest: Tester re-executes the original steps to reproduce the bug against the fix.
+Verified: Tester confirms the fix works as expected and the bug no longer occurs.
+Closed: Defect is formally closed out; no further action needed.
+
+
+Task 6:
+			
+(a) Bug = POST /api/courses/ returns 500 for all requests	
+    Severity - Critical	
+    Priority = P1	
+    Justification -> Core functionality (course creation) is completely broken for every user - this blocks the primary workflow of the system.
+(b) Bug = Course names over 150 characters are silently truncated, no error	
+    Severity - Medium	
+    Priority = P3
+    Justification -> The system doesn't crash and most valid inputs work fine, but data is silently corrupted, which is a real data-integrity concern
+(c) Bug = Typo in the Swagger /docs API description	
+    Severity - Low	
+    Priority = P4	
+    Justification -> Purely cosmetic; doesn't affect functionality at all. Can be fixed whenever convenient.
+(d) Bug = Login with correct credentials intermittently returns 401	
+    Severity - High	
+    Priority = P1	
+    Justification -> Even though it doesn't fail 100% of the time, an intermittent authentication failure blocks users unpredictably and signals a deeper instability (e.g., a race condition or token/session bug) that needs urgent investigation
+
+
+Task 7:
+Defect ID	- DEF-CMS-0001
+Title	-> POST /api/courses/ returns 500 Internal Server Error for all requests
+Environment	Staging  -  Ubuntu 22.04, Python 3.11, PostgreSQL 15
+Build Version	- v1.2.0-rc1
+Severity	- Critical
+Priority	- P1
+Steps to Reproduce	
+     1. Start the Course Management API server on staging. 
+     2. Send a POST /api/courses/ request with a valid JSON body (e.g., {"name": "Data Structures", "code": "CS201", "credits": 4}) using Postman or curl. 
+     3. Observe the response.
+
+Expected Result	201 Created response with the newly created course object in the response body.
+Actual Result - 500 Internal Server Error returned for every request, regardless of payload validity.
+
+
+Task 8:
+Severity measures how badly the defect impacts the system's functionality - technical impact. 
+Priority measures how urgently it needs to be fixed - business/scheduling impact. 
+They're independent and don't have to move together.
+
+Real-world example where High Severity ≠ High Priority: 
+Suppose the Course Management API has a bug in a rarely-used "export course history to legacy XML format" feature 
+used by exactly one internal integration that's being decommissioned next month, and calling it crashes the whole export module.
+That's High Severity (a whole feature crashes), but Low Priority — because the feature is about to be retired anyway, 
+there's no business value in fixing it before then. The team would rather spend that time on something users actually depend on.
