@@ -58,6 +58,7 @@ request/response interceptors, wired it into Redux Toolkit using
 for global error handling, and compared state management approaches
 across React (Redux), Angular (NgRx), and Vue (Pinia).
 
+
 ---
 
 **Stack covered across the series:** HTML5, CSS3, JavaScript,
