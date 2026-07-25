@@ -28,27 +28,21 @@ def test_simple_form_submission(driver, base_url, message):
 
 
 def test_checkbox_demo(driver, base_url):
-    driver.get(base_url + "checkbox-demo")
-
+    driver.get(base_url + "checkbox-demo/")
     wait = WebDriverWait(driver, 10)
 
-    # The element exists as soon as the page loads, but a sticky header,
-    # cookie banner, or ad on this page can sit ON TOP of it — so
-    # element_to_be_clickable can time out even though the checkbox is
-    # technically "present". Scrolling it to the center of the viewport
-    # first moves it out from under any overlay before we wait on it.
-    checkbox_el = driver.find_element(By.ID, "isAgeSelected")
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", checkbox_el)
-
-    first_checkbox = wait.until(
-        EC.element_to_be_clickable((By.ID, "isAgeSelected"))
+    checkboxes_locator = (
+        By.XPATH,
+        "//*[self::h2 or self::h3 or self::h4][normalize-space()='Multiple Checkbox Demo']"
+        "/following::input[@type='checkbox'][position()<=4]"
     )
+    wait.until(EC.presence_of_all_elements_located(checkboxes_locator))
 
-    # Click to select
+    first_checkbox = driver.find_elements(*checkboxes_locator)[0]
+
     first_checkbox.click()
     assert first_checkbox.is_selected() is True
 
-    # Click again to deselect
     first_checkbox.click()
     assert first_checkbox.is_selected() is False
 
